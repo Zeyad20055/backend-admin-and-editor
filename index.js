@@ -1,0 +1,39 @@
+const express = require('express');
+const session = require("express-session");
+const app = express();
+const path = require('path');
+require('dotenv').config();
+
+/* ------------- public folder ---------------- */
+app.use(express.static(__dirname + '/public'));
+/* ------------- view engine ------------------ */
+app.set('view engine', 'ejs');
+/* ------------- session ---------------------- */
+app.use(session({
+    secret: 'thisismyapplicationtoday',
+    resave: false,
+    saveUninitialized: true,
+    cookie: {
+        secure: false,
+        maxAge: 1000 * 60 * 60 * 24 * 3, // three days to be expired
+    }
+}));
+app.use((req, res, next) => {
+    res.locals.currentUserName = req.session.fullname || "";
+    res.locals.currentUserRole = req.session.userRole || "";
+    next();
+});
+/* -------------- using form data -------------- */
+app.use(express.urlencoded({extended: true}));
+
+
+
+const webRouter = require('./route/web');
+app.use(webRouter);
+
+/* ---------------- start server --------------- */
+port = process.env.PORT;
+app.listen(port, () => {
+    //
+    console.log("server start at port http://localhost:" + port);
+});

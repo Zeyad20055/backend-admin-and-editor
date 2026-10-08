@@ -1,0 +1,56 @@
+<%- include('../partials/siteHeader', {pageTitle: "Home"}) %>
+
+<main id="top">
+    <section class="hero">
+        <div class="hero-inner">
+            <div class="hero-copy">
+                <p class="eyebrow">Fresh from our kitchen</p>
+                <h1>Good food.<br><span>Good moments.</span></h1>
+                <p class="hero-description">
+                    Explore the My Restaurant collection: thoughtfully prepared favourites,
+                    made to bring a little more joy to your table.
+                </p>
+                <a class="button-primary" href="#menu">Explore our menu</a>
+            </div>
+        </div>
+    </section>
+
+    <section class="catalog" id="menu">
+        <div class="section-heading">
+            <div>
+                <p class="eyebrow">Made for sharing</p>
+                <h2>Our menu</h2>
+            </div>
+            <p class="section-note">A selection of our available products.</p>
+        </div>
+
+        <% if (products.length > 0) { %>
+            <div class="product-grid">
+                <% products.forEach(product => { %>
+                    <article class="product-card">
+                        <% if (product.photo) { %>
+                            <img
+                                class="product-image"
+                                src="/img/uploades/<%= product.photo %>"
+                                alt="<%= product.productName %>"
+                                loading="lazy">
+                        <% } else { %>
+                            <div class="product-placeholder" aria-hidden="true">MR</div>
+                        <% } %>
+                        <div class="product-info">
+                            <h3><%= product.productName %></h3>
+                            <p class="product-weight">Weight <span aria-hidden="true">&middot;</span> <%= product.weight %></p>
+                        </div>
+                    </article>
+                <% }); %>
+            </div>
+        <% } else { %>
+            <div class="empty-state">
+                <h3>Our menu is coming soon</h3>
+                <p>We’re preparing our first selection. Please check back soon.</p>
+            </div>
+        <% } %>
+    </section>
+</main>
+
+<%- include('../partials/siteFooter') %>

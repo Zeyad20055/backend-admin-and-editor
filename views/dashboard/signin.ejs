@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="theme-color" content="#0b0b0b">
+    <meta name="description" content="Sign in to the Pato Restaurant staff workspace">
+    <title>Staff sign in | Pato Restaurant</title>
+    <link rel="stylesheet" href="/css/siteStyles.css">
+</head>
+<body>
+<main class="auth-page">
+    <section class="auth-brand-panel" aria-label="Pato Restaurant">
+        <a class="auth-brand" href="/">
+            <span class="auth-brand-mark" aria-hidden="true">P</span>
+            <span>Pato Restaurant</span>
+        </a>
+        <div class="auth-promo">
+            <p class="eyebrow">Staff workspace</p>
+            <h2>Thoughtful service starts <span>behind the scenes.</span></h2>
+            <p>Sign in to manage the menu and keep every detail of the restaurant experience up to date.</p>
+        </div>
+        <p class="field-help">A private workspace for authorized staff.</p>
+    </section>
+    <section class="auth-panel">
+        <div class="auth-card">
+            <p class="eyebrow">Welcome back</p>
+            <h1>Sign in</h1>
+            <p>Enter the username and password provided by your administrator to access the staff dashboard.</p>
+            <% if (registerComplete) { %>
+                <div class="notice notice-success" role="status"><%= registerComplete %></div>
+            <% } %>
+            <% if (failed) { %>
+                <div class="notice notice-danger" role="alert"><%= failed %></div>
+            <% } %>
+            <% if (logout) { %>
+                <div class="notice notice-info" role="status"><%= logout %></div>
+            <% } %>
+            <form action="/verifySignin" method="post" enctype="application/x-www-form-urlencoded">
+                <div class="auth-field">
+                    <label for="username">Username</label>
+                    <input type="text" name="username" id="username" autocomplete="username" placeholder="Your username" required>
+                </div>
+                <div class="auth-field">
+                    <label for="password">Password</label>
+                    <div class="password-wrap">
+                        <input type="password" name="password" id="password" autocomplete="current-password" placeholder="Your password" required>
+                        <button class="password-toggle" type="button" data-password-toggle="password" aria-label="Show password">Show</button>
+                    </div>
+                </div>
+                <button class="button auth-submit" type="submit">Sign in to staff dashboard</button>
+            </form>
+            <p class="auth-footnote"><a href="/">Return to the public website</a></p>
+        </div>
+    </section>
+</main>
+<script>
+    document.querySelectorAll("[data-password-toggle]").forEach(toggle => {
+        toggle.addEventListener("click", () => {
+            const password = document.getElementById(toggle.dataset.passwordToggle);
+            const isVisible = password.type === "text";
+            password.type = isVisible ? "password" : "text";
+            toggle.textContent = isVisible ? "Show" : "Hide";
+            toggle.setAttribute("aria-label", isVisible ? "Show password" : "Hide password");
+        });
+    });
+</script>
+</body>
+</html>

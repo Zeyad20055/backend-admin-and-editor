@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#0b0b0b">
+    <meta name="description" content="Discover thoughtfully selected products from Pato Restaurant.">
+    <title>Pato Restaurant - <%= pageTitle %></title>
+    <link rel="stylesheet" href="/css/siteStyles.css">
+</head>
+<body>
+
+<header class="site-header">
+    <div class="header-inner">
+        <a class="brand" href="/" aria-label="Pato Restaurant home">
+            <span class="brand-mark" aria-hidden="true">P</span>
+            <span>Pato Restaurant</span>
+        </a>
+        <button class="menu-toggle" type="button" aria-label="Toggle navigation" aria-expanded="false" aria-controls="siteNavigation">
+            <span aria-hidden="true">&#9776;</span>
+        </button>
+        <nav class="site-nav" id="siteNavigation" aria-label="Main navigation">
+            <a href="/#menu">Our menu</a>
+            <% if (currentUserRole) { %>
+                <a href="/dashboard/index">Dashboard</a>
+                <a href="/products">Products</a>
+                <% if (currentUserRole === "admin") { %>
+                    <a href="/products/approvals">Approvals</a>
+                    <a href="/users">Staff</a>
+                <% } %>
+                <span class="nav-user"><%= currentUserName %></span>
+                <a class="nav-button" href="/logout">Sign out</a>
+            <% } else { %>
+                <a class="nav-button" href="/signin">Staff sign in</a>
+            <% } %>
+        </nav>
+    </div>
+</header>

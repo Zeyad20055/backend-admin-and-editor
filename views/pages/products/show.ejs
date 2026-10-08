@@ -1,0 +1,44 @@
+<%- include('../../partials/siteHeader', {pageTitle: "Product details"}) %>
+
+<main class="management-page">
+    <div class="page-heading">
+        <div>
+            <p class="eyebrow">Product workspace</p>
+            <h1>Product details</h1>
+            <p class="page-description">Review the information saved for this product.</p>
+        </div>
+    </div>
+
+    <div class="page-actions">
+        <a class="button button-secondary" href="/products">← Back to products</a>
+        <% if (oneProduct.length > 0) { %>
+            <a class="button" href="/products/updateForm/<%= oneProduct[0]._id %>">Edit this product</a>
+        <% } %>
+    </div>
+
+    <% if (oneProduct.length > 0) { %>
+        <section class="content-card form-card">
+            <h2><%= oneProduct[0].productName %></h2>
+            <p><strong>Weight:</strong> <%= oneProduct[0].weight %></p>
+            <p>
+                <strong>Website visibility:</strong>
+                <span class="status-badge <%= oneProduct[0].isApproved === true || oneProduct[0].isApproved === undefined ? "" : "status-pending" %>">
+                    <%= oneProduct[0].isApproved === true || oneProduct[0].isApproved === undefined ? "Visible to visitors" : "Not visible to visitors" %>
+                </span>
+            </p>
+            <% if (oneProduct[0].photo) { %>
+                <img src="/img/uploades/<%= oneProduct[0].photo %>" class="photo-preview" alt="<%= oneProduct[0].productName %>">
+            <% } else { %>
+                <p class="field-help">No photo has been added for this product.</p>
+            <% } %>
+        </section>
+    <% } else { %>
+        <section class="content-card empty-panel">
+            <h2>Product not found</h2>
+            <p>This product may have been removed.</p>
+            <a class="button button-secondary" href="/products">Return to products</a>
+        </section>
+    <% } %>
+</main>
+
+<%- include('../../partials/siteFooter') %>

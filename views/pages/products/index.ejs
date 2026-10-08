@@ -1,0 +1,73 @@
+<%- include('../../partials/siteHeader', {pageTitle: "Product management"}) %>
+
+<main class="management-page">
+    <div class="page-heading">
+        <div>
+            <p class="eyebrow">Product workspace</p>
+            <h1>Manage products</h1>
+            <p class="page-description">
+                <% if (userRole === "editor") { %>
+                    Create, edit, or request removal of a product. An administrator must approve your changes before they take effect.
+                <% } else { %>
+                    Create and manage the products shown on your public site.
+                <% } %>
+            </p>
+        </div>
+        <a class="button" href="/products/createForm">+ Add a product</a>
+    </div>
+
+    <div class="page-actions">
+        <a class="button button-secondary" href="/">View public website</a>
+        <% if (userRole === "admin") { %>
+            <a class="button button-secondary" href="/products/approvals">Review editor changes</a>
+            <a class="button button-secondary" href="/users">Manage staff accounts</a>
+        <% } %>
+    </div>
+
+    <% if (msg) { %><p class="notice"><%= msg %></p><% } %>
+
+    <% if (products.length > 0) { %>
+        <section class="content-card" aria-label="Product list">
+            <div class="table-wrap">
+                <table class="data-table">
+                    <thead>
+                        <tr><th>Product</th><th>Weight</th><th>Website visibility</th><th>Available actions</th></tr>
+                    </thead>
+                    <tbody>
+                        <% products.forEach(oneProduct => { %>
+                            <tr>
+                                <td><strong><%= oneProduct.productName %></strong></td>
+                                <td><%= oneProduct.weight %></td>
+                                <td>
+                                    <span class="status-badge <%= oneProduct.isApproved === true || oneProduct.isApproved === undefined ? "" : "status-pending" %>">
+                                        <%= oneProduct.isApproved === true || oneProduct.isApproved === undefined ? "Visible to visitors" : "Not visible to visitors" %>
+                                    </span>
+                                </td>
+                                <td>
+                                    <div class="table-actions">
+                                        <a class="button button-secondary button-small" href="/products/show/<%= oneProduct._id %>">View details</a>
+                                        <a class="button button-secondary button-small" href="/products/updateForm/<%= oneProduct._id %>">Edit product</a>
+                                        <form action="/products/destroy/<%= oneProduct._id %>" method="post"
+                                            onsubmit="return confirm('Continue with this product removal action?');">
+                                            <button class="button button-danger button-small" type="submit">
+                                                <%= userRole === "editor" ? "Request removal" : "Delete product" %>
+                                            </button>
+                                        </form>
+                                    </div>
+                                </td>
+                            </tr>
+                        <% }); %>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+    <% } else { %>
+        <section class="content-card empty-panel">
+            <h2>No products yet</h2>
+            <p>Add your first product to get started. Visitors will see it on the public website.</p>
+            <a class="button" href="/products/createForm">Add your first product</a>
+        </section>
+    <% } %>
+</main>
+
+<%- include('../../partials/siteFooter') %>

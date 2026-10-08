@@ -1,0 +1,66 @@
+<%- include('../../partials/siteHeader', {pageTitle: "User management"}) %>
+
+<main class="management-page">
+    <div class="page-heading">
+        <div>
+            <p class="eyebrow">Administrator tools</p>
+            <h1>Staff accounts</h1>
+            <p class="page-description">Create staff logins and manage who can access the site. Editors can submit product changes for your approval.</p>
+        </div>
+        <a class="button" href="/users/createForm">+ Create staff account</a>
+    </div>
+
+    <div class="page-actions">
+        <a class="button button-secondary" href="/dashboard/index">Back to dashboard</a>
+    </div>
+
+    <% if (msg) { %><p class="notice"><%= msg %></p><% } %>
+
+    <% if (users.length > 0) { %>
+        <section class="content-card" aria-label="Staff account list">
+            <div class="table-wrap">
+                <table class="data-table">
+                    <thead>
+                        <tr><th>Staff member</th><th>Username</th><th>Role</th><th>Account status</th><th>Account action</th></tr>
+                    </thead>
+                    <tbody>
+                        <% users.forEach(user => { %>
+                            <tr>
+                                <td><strong><%= user.fullname %></strong></td>
+                                <td><%= user.username %></td>
+                                <td><%= user.userRole === "admin" ? "Administrator" : "Editor" %></td>
+                                <td>
+                                    <span class="status-badge <%= user.isActive === true ? "" : "status-inactive" %>">
+                                        <%= user.isActive === true ? "Active — can sign in" : "Inactive — sign-in blocked" %>
+                                    </span>
+                                </td>
+                                <td>
+                                    <% if (user._id.toString() === currentUserId) { %>
+                                        <span class="field-help">Your current account</span>
+                                    <% } else { %>
+                                        <form action="/users/toggleActive/<%= user._id %>" method="post">
+                                            <button class="button button-small <%= user.isActive === true ? "button-danger" : "button-success" %>"
+                                                type="submit"
+                                                onclick="return confirm('<%= user.isActive === true ? "Deactivate" : "Activate" %> this staff account?');"
+                                                aria-label="<%= user.isActive === true ? "Deactivate " + user.fullname : "Activate " + user.fullname %>">
+                                                <%= user.isActive === true ? "Deactivate account" : "Activate account" %>
+                                            </button>
+                                        </form>
+                                    <% } %>
+                                </td>
+                            </tr>
+                        <% }); %>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+    <% } else { %>
+        <section class="content-card empty-panel">
+            <h2>No staff accounts yet</h2>
+            <p>Create an account to give a staff member access to the system.</p>
+            <a class="button" href="/users/createForm">Create the first staff account</a>
+        </section>
+    <% } %>
+</main>
+
+<%- include('../../partials/siteFooter') %>

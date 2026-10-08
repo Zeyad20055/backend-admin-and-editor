@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="theme-color" content="#0b0b0b">
+    <meta name="description" content="Pato Restaurant staff workspace">
+    <title><%= pageName %> | Pato Restaurant</title>
+    <link rel="stylesheet" href="<%= pathLevel %>css/siteStyles.css">
+</head>
+<body>
+<div class="admin-shell" id="adminShell">
+    <aside class="admin-sidebar" id="adminSidebar" aria-label="Staff navigation">
+        <a class="brand" href="/" aria-label="Pato Restaurant home">
+            <span class="brand-mark" aria-hidden="true">P</span>
+            <span>Pato Restaurant</span>
+        </a>
+
+        <div class="admin-user">
+            <span class="admin-avatar" aria-hidden="true"><%= (fullname || "S").charAt(0).toUpperCase() %></span>
+            <div class="admin-user-copy">
+                <strong><%= fullname %></strong>
+                <span><%= userRole === "admin" ? "Administrator" : "Editor" %></span>
+            </div>
+        </div>
+
+        <p class="admin-nav-label">Workspace</p>
+        <nav class="admin-nav" aria-label="Workspace">
+            <a href="/dashboard/index" class="active" aria-current="page">
+                <span class="admin-nav-icon" aria-hidden="true">&#9638;</span>Dashboard
+            </a>
+            <a href="/products">
+                <span class="admin-nav-icon" aria-hidden="true">&#9633;</span>Products
+            </a>
+            <% if (userRole === "admin") { %>
+                <a href="/products/approvals">
+                    <span class="admin-nav-icon" aria-hidden="true">&#10003;</span>Product approvals
+                </a>
+                <a href="/users">
+                    <span class="admin-nav-icon" aria-hidden="true">&#9787;</span>Staff accounts
+                </a>
+            <% } %>
+        </nav>
+
+        <div class="admin-sidebar-bottom">
+            <a href="/">
+                <span class="admin-nav-icon" aria-hidden="true">&#8599;</span>Public website
+            </a>
+            <a href="/logout">
+                <span class="admin-nav-icon" aria-hidden="true">&#8594;</span>Sign out
+            </a>
+        </div>
+    </aside>
+    <div class="sidebar-backdrop" id="sidebarBackdrop"></div>
+    <div class="admin-main">
+        <header class="admin-topbar">
+            <div class="admin-topbar-actions">
+                <button class="sidebar-toggler" type="button" aria-label="Open navigation" aria-expanded="false" aria-controls="adminSidebar">
+                    <span aria-hidden="true">&#9776;</span>
+                </button>
+                <span class="admin-topbar-copy">Workspace <span aria-hidden="true">/</span> <strong><%= pageName %></strong></span>
+            </div>
+            <a class="button button-secondary" href="/logout">Sign out</a>
+        </header>

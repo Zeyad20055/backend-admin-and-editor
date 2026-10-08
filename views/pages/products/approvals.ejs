@@ -1,0 +1,65 @@
+<%- include('../../partials/siteHeader', {pageTitle: "Product approvals"}) %>
+
+<main class="management-page">
+    <div class="page-heading">
+        <div>
+            <p class="eyebrow">Administrator tools</p>
+            <h1>Review product changes</h1>
+            <p class="page-description">Accept a request to apply the editor’s change, or reject it to leave the current product as it is.</p>
+        </div>
+    </div>
+
+    <div class="page-actions">
+        <a class="button button-secondary" href="/products">← Back to products</a>
+    </div>
+
+    <% if (msg) { %><p class="notice"><%= msg %></p><% } %>
+
+    <% if (requests.length > 0) { %>
+        <section class="content-card" aria-label="Pending product changes">
+            <div class="table-wrap">
+                <table class="data-table">
+                    <thead>
+                        <tr><th>Requested change</th><th>Product details</th><th>Submitted by</th><th>Submitted</th><th>Decision</th></tr>
+                    </thead>
+                    <tbody>
+                        <% requests.forEach(request => { %>
+                            <tr>
+                                <td><strong><%= request.action === "create" ? "New product" : request.action === "update" ? "Edit product" : "Remove product" %></strong></td>
+                                <td>
+                                    <% if (request.action === "delete") { %>
+                                        Product ID: <%= request.productId %>
+                                    <% } else { %>
+                                        <strong><%= request.productData.productName %></strong>
+                                        <br><span class="field-help">Weight: <%= request.productData.weight %></span>
+                                        <% if (request.productData.photo) { %>
+                                            <br><img class="request-image" src="/img/uploades/<%= request.productData.photo %>" alt="Photo for <%= request.productData.productName %>">
+                                        <% } %>
+                                    <% } %>
+                                </td>
+                                <td><%= request.requestedBy %></td>
+                                <td><%= request.createdAt.toLocaleString() %></td>
+                                <td>
+                                    <form action="/products/approvals/<%= request._id %>" method="post" class="table-actions">
+                                        <button class="button button-small" type="submit" name="decision" value="accept"
+                                            onclick="return confirm('Accept this change and apply it to the website?');">Accept change</button>
+                                        <button class="button button-danger button-small" type="submit" name="decision" value="reject"
+                                            onclick="return confirm('Reject this change and keep the current product as it is?');">Reject change</button>
+                                    </form>
+                                </td>
+                            </tr>
+                        <% }); %>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+    <% } else { %>
+        <section class="content-card empty-panel">
+            <h2>You’re all caught up</h2>
+            <p>There are no product changes waiting for your approval.</p>
+            <a class="button button-secondary" href="/products">Return to products</a>
+        </section>
+    <% } %>
+</main>
+
+<%- include('../../partials/siteFooter') %>

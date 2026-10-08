@@ -1,0 +1,70 @@
+<%- include('../../partials/siteHeader', {pageTitle: "Create staff account"}) %>
+
+<main class="management-page">
+    <div class="page-heading">
+        <div>
+            <p class="eyebrow">Administrator tools</p>
+            <h1>Create a staff account</h1>
+            <p class="page-description">Set up sign-in details and choose what this person can do in the system.</p>
+        </div>
+    </div>
+
+    <div class="page-actions">
+        <a class="button button-secondary" href="/users">← Back to staff accounts</a>
+    </div>
+
+    <% if (msg) { %><p class="notice"><%= msg %></p><% } %>
+
+    <section class="content-card form-card">
+        <p class="form-intro">Share the username and password with the staff member securely. They can sign in once their account is active.</p>
+        <form action="/users/store" method="post">
+            <div class="form-grid">
+                <div class="form-field form-field-full">
+                    <label for="fullname">Staff member’s full name</label>
+                    <input type="text" name="fullname" id="fullname" autocomplete="name" placeholder="For example, Sam Lee" required>
+                </div>
+                <div class="form-field form-field-full">
+                    <label for="username">Username</label>
+                    <input type="text" name="username" id="username" autocomplete="username" placeholder="Choose a unique username" required>
+                    <p class="field-help">The staff member will use this username to sign in.</p>
+                </div>
+                <div class="form-field">
+                    <label for="password">Temporary password</label>
+                    <div class="password-wrap">
+                        <input type="password" name="password" id="password" autocomplete="new-password" placeholder="Create a password" required>
+                        <button class="password-toggle" type="button" data-password-toggle="password" aria-label="Show password">Show</button>
+                    </div>
+                </div>
+                <div class="form-field">
+                    <label for="confirmPassword">Confirm password</label>
+                    <div class="password-wrap">
+                        <input type="password" name="confirmPassword" id="confirmPassword" autocomplete="new-password" placeholder="Enter it again" required>
+                        <button class="password-toggle" type="button" data-password-toggle="confirmPassword" aria-label="Show password">Show</button>
+                    </div>
+                </div>
+                <div class="form-field form-field-full">
+                    <label for="userRole">Access role</label>
+                    <select name="userRole" id="userRole" required>
+                        <option value="editor">Editor — manage products; changes need admin approval</option>
+                        <option value="admin">Administrator — manage staff and approve product changes</option>
+                    </select>
+                </div>
+                <div class="form-field form-field-full">
+                    <div class="checkbox-field">
+                        <input type="checkbox" name="isActive" id="isActive" value="true" checked>
+                        <label for="isActive">
+                            Activate account now
+                            <small>When active, this person can sign in. Leave unchecked to create the account without access yet.</small>
+                        </label>
+                    </div>
+                </div>
+            </div>
+            <div class="form-actions">
+                <button class="button" type="submit">Create staff account</button>
+                <a class="button button-secondary" href="/users">Cancel</a>
+            </div>
+        </form>
+    </section>
+</main>
+
+<%- include('../../partials/siteFooter') %>

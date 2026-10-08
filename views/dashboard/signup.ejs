@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="theme-color" content="#0b0b0b">
+    <meta name="description" content="Set up the first Pato Restaurant administrator account">
+    <title>Administrator setup | Pato Restaurant</title>
+    <link rel="stylesheet" href="/css/siteStyles.css">
+</head>
+<body>
+<main class="auth-page">
+    <section class="auth-brand-panel" aria-label="Pato Restaurant">
+        <a class="auth-brand" href="/">
+            <span class="auth-brand-mark" aria-hidden="true">P</span>
+            <span>Pato Restaurant</span>
+        </a>
+        <div class="auth-promo">
+            <p class="eyebrow">Secure workspace setup</p>
+            <h2>Make your first move <span>count.</span></h2>
+            <p>Create the administrator account that will manage staff and oversee the restaurant website.</p>
+        </div>
+        <p class="field-help">This setup is available only before the first account is created.</p>
+    </section>
+    <section class="auth-panel">
+        <div class="auth-card">
+            <p class="eyebrow">Getting started</p>
+            <h1>Administrator setup</h1>
+            <p>Create the first administrator account. After this account exists, only administrators can create users.</p>
+            <% if (msg) { %>
+                <div class="notice notice-danger" role="alert"><%= msg %></div>
+            <% } %>
+            <form action="/storeUser" method="post">
+                <div class="auth-field">
+                    <label for="fullname">Full name</label>
+                    <input type="text" name="fullname" id="fullname" autocomplete="name" placeholder="Your full name" required>
+                </div>
+                <div class="auth-field">
+                    <label for="username">Username</label>
+                    <input type="text" name="username" id="username" autocomplete="username" placeholder="Choose a username" required>
+                </div>
+                <div class="auth-field">
+                    <label for="password">Password</label>
+                    <div class="password-wrap">
+                        <input type="password" name="password" id="password" autocomplete="new-password" placeholder="Create a password" required>
+                        <button class="password-toggle" type="button" data-password-toggle="password" aria-label="Show password">Show</button>
+                    </div>
+                </div>
+                <div class="auth-field">
+                    <label for="confirmPassword">Confirm password</label>
+                    <div class="password-wrap">
+                        <input type="password" name="confirmPassword" id="confirmPassword" autocomplete="new-password" placeholder="Enter your password again" required>
+                        <button class="password-toggle" type="button" data-password-toggle="confirmPassword" aria-label="Show password">Show</button>
+                    </div>
+                </div>
+                <button class="button auth-submit" type="submit">Create administrator account</button>
+            </form>
+            <p class="auth-footnote"><a href="/">Return to the public website</a></p>
+        </div>
+    </section>
+</main>
+<script>
+    document.querySelectorAll("[data-password-toggle]").forEach(toggle => {
+        toggle.addEventListener("click", () => {
+            const password = document.getElementById(toggle.dataset.passwordToggle);
+            const isVisible = password.type === "text";
+            password.type = isVisible ? "password" : "text";
+            toggle.textContent = isVisible ? "Show" : "Hide";
+            toggle.setAttribute("aria-label", isVisible ? "Show password" : "Hide password");
+        });
+    });
+</script>
+</body>
+</html>

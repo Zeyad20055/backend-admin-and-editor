@@ -1,0 +1,63 @@
+<%- include('../../partials/siteHeader', {pageTitle: "Add a product"}) %>
+
+<main class="management-page">
+    <div class="page-heading">
+        <div>
+            <p class="eyebrow">Product workspace</p>
+            <h1>Add a product</h1>
+            <p class="page-description">Enter the product details that customers will see on your website.</p>
+        </div>
+    </div>
+
+    <div class="page-actions">
+        <a class="button button-secondary" href="/products">← Back to products</a>
+    </div>
+
+    <section class="content-card form-card">
+        <p class="form-intro">
+            <% if (userRole === "editor") { %>
+                Your product will be sent to an administrator for approval before it appears on the website.
+            <% } else { %>
+                Complete the required fields below. Your product will be visible on the public website once saved.
+            <% } %>
+        </p>
+        <form action="/products/store" method="post" enctype="multipart/form-data">
+            <div class="form-grid">
+                <div class="form-field form-field-full">
+                    <label for="productName">Product name</label>
+                    <input type="text" name="productName" id="productName" placeholder="Enter the product name" required>
+                </div>
+                <div class="form-field form-field-full">
+                    <label for="weight">Product weight</label>
+                    <input type="text" name="weight" id="weight" placeholder="For example, 500 g" required>
+                </div>
+                <div class="form-field form-field-full">
+                    <label for="photo">Product photo <span class="field-help">(optional)</span></label>
+                    <input type="file" name="photo" id="photo" accept="image/*" onchange="photoPreviewFn(this);">
+                    <p class="field-help">Choose an image file. A preview will appear below.</p>
+                    <img src="" id="photoPreview" class="photo-preview" alt="Selected product photo preview" hidden>
+                </div>
+            </div>
+            <div class="form-actions">
+                <button class="button" type="submit">Save product</button>
+                <a class="button button-secondary" href="/products">Cancel</a>
+            </div>
+        </form>
+    </section>
+</main>
+
+<script>
+    function photoPreviewFn(inputFile) {
+        const preview = document.getElementById("photoPreview");
+        const file = inputFile.files[0];
+        if (!file) {
+            preview.hidden = true;
+            preview.removeAttribute("src");
+            return;
+        }
+        preview.src = URL.createObjectURL(file);
+        preview.hidden = false;
+    }
+</script>
+
+<%- include('../../partials/siteFooter') %>

@@ -1,0 +1,28 @@
+<footer class="site-footer">
+    <div class="footer-inner">
+        <p>&copy; <%= new Date().getFullYear() %> Pato Restaurant. Made with care.</p>
+        <a href="#top">Back to top &uarr;</a>
+    </div>
+</footer>
+
+<script>
+    const menuToggle = document.querySelector(".menu-toggle");
+    const siteNavigation = document.querySelector(".site-nav");
+    if (menuToggle && siteNavigation) {
+        menuToggle.addEventListener("click", () => {
+            const isOpen = siteNavigation.classList.toggle("open");
+            menuToggle.setAttribute("aria-expanded", String(isOpen));
+        });
+    }
+    document.querySelectorAll("[data-password-toggle]").forEach(toggle => {
+        toggle.addEventListener("click", () => {
+            const password = document.getElementById(toggle.dataset.passwordToggle);
+            const isVisible = password.type === "text";
+            password.type = isVisible ? "password" : "text";
+            toggle.textContent = isVisible ? "Show" : "Hide";
+            toggle.setAttribute("aria-label", isVisible ? "Show password" : "Hide password");
+        });
+    });
+</script>
+</body>
+</html>

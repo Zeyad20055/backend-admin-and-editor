@@ -1,0 +1,44 @@
+<%- include('./partials/headerLayout.ejs', {pageName: "Dashboard", pathLevel: "/"}) %>
+
+<main class="admin-content">
+    <section class="admin-welcome">
+        <p class="eyebrow">Staff workspace</p>
+        <h1>Welcome back, <%= fullname %></h1>
+        <p>
+            You are signed in as <strong><%= userRole === "admin" ? "Administrator" : "Editor" %></strong>.
+            Choose an action below to manage the restaurant website.
+        </p>
+    </section>
+
+    <h2 class="dashboard-section-title">Quick access</h2>
+    <div class="dashboard-grid">
+        <a class="dashboard-card" href="/products">
+            <span class="dashboard-card-icon" aria-hidden="true">&#9633;</span>
+            <h2>Manage products</h2>
+            <p>Add, update, review, or remove products from the public menu.</p>
+            <span class="dashboard-card-arrow" aria-hidden="true">&#8594;</span>
+        </a>
+        <% if (userRole === "admin") { %>
+            <a class="dashboard-card" href="/products/approvals">
+                <span class="dashboard-card-icon" aria-hidden="true">&#10003;</span>
+                <h2>Product approvals</h2>
+                <p>Review and decide on product changes submitted by editors.</p>
+                <span class="dashboard-card-arrow" aria-hidden="true">&#8594;</span>
+            </a>
+            <a class="dashboard-card" href="/users">
+                <span class="dashboard-card-icon" aria-hidden="true">&#9787;</span>
+                <h2>Staff accounts</h2>
+                <p>Create staff accounts and manage account access.</p>
+                <span class="dashboard-card-arrow" aria-hidden="true">&#8594;</span>
+            </a>
+        <% } %>
+        <a class="dashboard-card" href="/">
+            <span class="dashboard-card-icon" aria-hidden="true">&#8599;</span>
+            <h2>View public website</h2>
+            <p>Preview the products currently shown to visitors.</p>
+            <span class="dashboard-card-arrow" aria-hidden="true">&#8594;</span>
+        </a>
+    </div>
+</main>
+
+<%- include('./partials/footerLayout.ejs') %>

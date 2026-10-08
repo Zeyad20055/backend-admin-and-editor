@@ -1,0 +1,25 @@
+    </div>
+</div>
+<script>
+    const adminShell = document.getElementById("adminShell");
+    const sidebarToggle = document.querySelector(".sidebar-toggler");
+    const sidebarBackdrop = document.getElementById("sidebarBackdrop");
+
+    function setSidebarOpen(isOpen) {
+        adminShell.classList.toggle("sidebar-open", isOpen);
+        sidebarToggle.setAttribute("aria-expanded", String(isOpen));
+        sidebarBackdrop.classList.toggle("visible", isOpen);
+    }
+
+    sidebarToggle.addEventListener("click", () => {
+        setSidebarOpen(!adminShell.classList.contains("sidebar-open"));
+    });
+    sidebarBackdrop.addEventListener("click", () => setSidebarOpen(false));
+    document.addEventListener("keydown", event => {
+        if (event.key === "Escape") {
+            setSidebarOpen(false);
+        }
+    });
+</script>
+</body>
+</html>

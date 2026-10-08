@@ -1,0 +1,66 @@
+<%- include('../../partials/siteHeader', {pageTitle: "Edit product"}) %>
+
+<main class="management-page">
+    <div class="page-heading">
+        <div>
+            <p class="eyebrow">Product workspace</p>
+            <h1>Edit product</h1>
+            <p class="page-description">Update the product information shown to customers.</p>
+        </div>
+    </div>
+
+    <div class="page-actions">
+        <a class="button button-secondary" href="/products">← Back to products</a>
+    </div>
+
+    <section class="content-card form-card">
+        <p class="form-intro">
+            <% if (typeof userRole !== "undefined" && userRole === "editor") { %>
+                Your update will be sent to an administrator for approval before it appears on the website.
+            <% } else { %>
+                Save your changes when you are finished. Leave the photo empty to keep the current image.
+            <% } %>
+        </p>
+        <form action="/products/update" method="post" enctype="multipart/form-data">
+            <div class="form-grid">
+                <div class="form-field form-field-full">
+                    <label for="productName">Product name</label>
+                    <input type="text" name="productName" id="productName" value="<%= oneProduct[0].productName %>" required>
+                </div>
+                <div class="form-field form-field-full">
+                    <label for="weight">Product weight</label>
+                    <input type="text" name="weight" id="weight" value="<%= oneProduct[0].weight %>" required>
+                </div>
+                <div class="form-field form-field-full">
+                    <label for="photo">Replace product photo <span class="field-help">(optional)</span></label>
+                    <input type="file" name="photo" id="photo" accept="image/*" onchange="photoPreviewFn(this);">
+                    <p class="field-help">Leave this empty to keep the existing photo.</p>
+                    <% if (oneProduct[0].photo) { %>
+                        <img src="/img/uploades/<%= oneProduct[0].photo %>" id="photoPreview" class="photo-preview" alt="Current photo of <%= oneProduct[0].productName %>">
+                    <% } else { %>
+                        <img src="" id="photoPreview" class="photo-preview" alt="Selected product photo preview" hidden>
+                    <% } %>
+                </div>
+                <input type="hidden" name="id" value="<%= oneProduct[0]._id %>">
+            </div>
+            <div class="form-actions">
+                <button class="button" type="submit">Save product changes</button>
+                <a class="button button-secondary" href="/products">Cancel</a>
+            </div>
+        </form>
+    </section>
+</main>
+
+<script>
+    function photoPreviewFn(inputFile) {
+        const preview = document.getElementById("photoPreview");
+        const file = inputFile.files[0];
+        if (!file) {
+            return;
+        }
+        preview.src = URL.createObjectURL(file);
+        preview.hidden = false;
+    }
+</script>
+
+<%- include('../../partials/siteFooter') %>
